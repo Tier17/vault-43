@@ -1,0 +1,155 @@
+.crawl {
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+  --crawl-yellow: #ffd84a;
+}
+
+.crawl__stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.crawl__white {
+  position: absolute;
+  inset: 0;
+  background: #fff3d1;
+  pointer-events: none;
+}
+.crawl__white.is-gone {
+  transition: opacity 1.6s ease-out;
+  opacity: 0;
+}
+
+/* the opening line */
+.crawl__preface {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(84vw, 640px);
+  margin: 0;
+  transform: translate(-50%, -50%);
+  font: 500 clamp(20px, 2.4vw, 30px)/1.45 var(--display);
+  font-stretch: 95%;
+  letter-spacing: 0.01em;
+  color: #4fc3e8;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+.crawl__preface.is-on { opacity: 1; }
+
+/* the title that shrinks into the distance */
+.crawl__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translate(-50%, -50%) scale(2.6);
+  opacity: 0;
+  pointer-events: none;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--crawl-yellow);
+  font-family: var(--display);
+  font-stretch: 62%;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+.crawl__logo-line[data-line='0'] {
+  font-size: clamp(28px, 4.2vw, 56px);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  margin-right: -0.32em;
+  -webkit-text-stroke: 0;
+  color: var(--crawl-yellow);
+}
+.crawl__logo-line[data-line='1'] {
+  font-size: clamp(84px, 15vw, 210px);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.crawl__logo.is-on {
+  animation: logo-away 8s cubic-bezier(0.32, 0.02, 0.78, 0.6) forwards;
+}
+.crawl__logo.is-gone { visibility: hidden; }
+
+@keyframes logo-away {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(2.6); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.02); }
+}
+
+/* the crawl itself is drawn on a canvas; the same text sits in the page
+   for screen readers and for reduced motion */
+.crawl__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.crawl__canvas.is-on { opacity: 1; }
+.crawl__canvas.is-leaving {
+  transition: opacity 0.6s ease;
+  opacity: 0;
+}
+
+.crawl__read {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.crawl__read.is-static {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  overflow: auto;
+  padding: var(--s8) var(--gutter);
+  font: 700 clamp(20px, 2.4vw, 32px)/1.45 var(--display);
+  color: var(--crawl-yellow);
+}
+.crawl__read.is-static > * { max-width: 760px; margin-inline: auto; }
+.crawl__episode,
+.crawl__title { text-align: center; text-transform: uppercase; }
+.crawl__title { font-size: 1.6em; font-stretch: 70%; }
+
+.crawl__skip {
+  position: absolute;
+  z-index: 2;
+  right: var(--gutter);
+  bottom: max(var(--s4), env(safe-area-inset-bottom));
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: var(--s2) 0;
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  visibility: hidden;
+}
+.crawl__skip.is-ready { visibility: visible; }
+.crawl__skip:hover { color: var(--ink); }
+
+.crawl::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+.crawl.is-flashing::after {
+  transition: opacity 0.4s ease-in;
+  opacity: 1;
+}

@@ -1,0 +1,189 @@
+.vault {
+  justify-content: center;
+  gap: var(--s5);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, #24262a 0%, #151618 55%, #0b0b0c 100%);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vault__bar {
+  position: absolute;
+  top: max(var(--s4), env(safe-area-inset-top));
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  gap: var(--s4);
+  align-items: baseline;
+  padding-right: 96px; /* room for the sound toggle */
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.vault__bar b { color: var(--ink); font-weight: 700; }
+.vault__count[data-done='true'] { color: var(--green); }
+
+.vault__stage {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+  cursor: pointer;
+}
+
+.vault__stage > * { grid-area: 1 / 1; }
+
+.vault__light {
+  position: relative;
+  width: min(86vw, 52dvh, 500px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6dc 0%, #ffd987 30%, #b97a1e 62%, #000 100%);
+  transform: scale(0.96);
+}
+
+.door {
+  position: relative;
+  width: min(90vw, 54dvh, 520px);
+  aspect-ratio: 1;
+  transform-origin: 2% 50%;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+  will-change: transform;
+}
+.door canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.door.is-shaking { animation: door-shake 0.32s linear; }
+.door.is-open {
+  transition: transform 1.9s cubic-bezier(0.55, 0, 0.15, 1);
+  transform: rotateY(-108deg);
+}
+
+.vault__flood {
+  position: absolute;
+  inset: 0;
+  background: #fff3d1;
+  opacity: 0;
+  pointer-events: none;
+}
+.vault__flood.is-on {
+  transition: opacity 0.9s ease-in 1.1s;
+  opacity: 1;
+}
+
+.vault__panel {
+  width: min(100%, 460px);
+  margin: 0 auto;
+  min-height: 176px;
+}
+
+.vault__msg {
+  margin: 0;
+  min-height: 1.6em;
+  font: 400 13px/1.6 var(--mono);
+  color: var(--ink-2);
+}
+.vault__msg[data-tone='bad'] { color: var(--red); }
+.vault__msg[data-tone='good'] { color: var(--green); }
+.vault__msg[data-tone='hint'] { color: var(--amber); }
+
+.vault__keys {
+  margin: var(--s2) 0 0;
+  font: 400 11px/1.6 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.vault__form[hidden] { display: none; }
+
+.vault__clue {
+  display: block;
+  margin: var(--s3) 0 var(--s4);
+  font: 600 clamp(19px, 5.2vw, 23px)/1.25 var(--display);
+  font-stretch: 88%;
+  color: var(--ink);
+}
+
+.vault__prompt {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  border-bottom: 1.5px solid var(--ink-2);
+  padding-bottom: var(--s2);
+}
+.vault__prompt:focus-within { border-color: var(--amber); }
+.vault__prompt.is-shaking { animation: shake 0.36s linear; }
+
+.vault__chev {
+  font: 700 18px/1 var(--mono);
+  color: var(--amber);
+}
+
+.vault__input {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  background: none;
+  border: 0;
+  outline: 0;
+  padding: var(--s2) 0;
+  font: 500 18px/1 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  caret-color: var(--amber);
+}
+.vault__input::placeholder { color: var(--ink-3); }
+.vault__input:disabled { color: var(--ink-3); }
+
+.vault__enter {
+  padding: var(--s3) var(--s4);
+  font-size: 12px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes door-shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 1px); }
+  50% { transform: translate(3px, -1px); }
+  75% { transform: translate(-2px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door.is-open { transition-duration: 0.6s; }
+  .door.is-shaking, .vault__prompt.is-shaking { animation: none; }
+}
+
+/* Desktop first: door on the left, controls beside it. */
+@media (min-width: 900px) and (min-aspect-ratio: 1 / 1) {
+  .vault {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(var(--s7), 6vw, 120px);
+  }
+  .door { width: min(48vw, 78dvh, 680px); }
+  .vault__light { width: min(46vw, 75dvh, 650px); }
+  .vault__panel {
+    width: 400px;
+    margin: 0;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .vault__msg { font-size: 14px; }
+  .vault__clue { font-size: 28px; margin: var(--s4) 0 var(--s6); }
+  .vault__bar { font-size: 12px; }
+}

@@ -1,0 +1,4 @@
+d3-array 3.2.4, d3-geo 3.1.1 (ISC, Mike Bostock)       https://d3js.org
+topojson-client 3.1.0 (ISC, Mike Bostock)            https://github.com/topojson/topojson-client
+world-atlas 2.0.2 countries-110m (ISC; data from Natural Earth, public domain)
+Downloaded from cdn.jsdelivr.net and served locally so the page doesn't depend on a CDN.

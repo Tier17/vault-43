@@ -1,0 +1,5 @@
+Sound effects:
+- Kenney (https://kenney.nl), CC0 1.0. Packs: Impact Sounds, Interface Sounds, Sci-fi Sounds.
+- "Free Cinematic Sound Effects" by Gregor Quendel, CC BY 4.0
+  (https://creativecommons.org/licenses/by/4.0/), https://opengameart.org/node/140285
+  Used: impact, mech, whoosh, sub, rip, reveal, slam (trimmed and faded).
